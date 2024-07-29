@@ -63,9 +63,13 @@ n = MLP(3, [4, 4, 1])
 for k in range(20):
     ypred = [n(x) for x in xs]
     loss = sum([(yp - y)**2 for yp, y in zip(ypred, ys)], Value(0.0))
+    
+    for p in n.parameters():
+        p.grad = 0.0
+    
     loss.backward()
     for p in n.parameters():
-        p.data -= p.grad * 0.01
+        p.data -= p.grad * 0.05
 
     print(k, loss.data)
 
